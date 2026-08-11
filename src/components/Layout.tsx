@@ -20,6 +20,11 @@ export function Layout({ route, children }: { route: Route; children: ReactNode 
                 Orders
               </AppLink>
             </li>
+            <li>
+              <AppLink to="/dispatch" current={route.name === 'dispatch'}>
+                Dispatch board
+              </AppLink>
+            </li>
           </ul>
         </nav>
       </header>

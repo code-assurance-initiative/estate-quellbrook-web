@@ -34,3 +34,26 @@ export interface Order {
   readonly placedBy: string;
   readonly placedAt: string;
 }
+
+export interface RouteStop {
+  readonly sequence: number;
+  readonly consignmentId: string;
+  readonly orderId: string;
+  readonly postalCode: string;
+  readonly weightGrams: number;
+  readonly status: string;
+}
+
+export interface BoardRoute {
+  readonly routeId: string;
+  readonly depot: string;
+  readonly zone: string;
+  readonly express: boolean;
+  readonly status: string;
+  readonly driverName: string;
+  readonly vehicleRegistration: string;
+  readonly vehicleKind: string;
+  readonly capacityGrams: number;
+  readonly loadGrams: number;
+  readonly stops: readonly RouteStop[];
+}
