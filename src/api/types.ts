@@ -35,6 +35,19 @@ export interface Order {
   readonly placedAt: string;
 }
 
+export interface Delivery {
+  readonly consignmentId: string;
+  readonly status: string;
+  readonly outForDeliveryAt?: string | null;
+  readonly deliveredAt?: string | null;
+  readonly proof?: string | null;
+}
+
+export interface Shipment {
+  readonly order: Order;
+  readonly delivery: Delivery | null;
+}
+
 export interface RouteStop {
   readonly sequence: number;
   readonly consignmentId: string;

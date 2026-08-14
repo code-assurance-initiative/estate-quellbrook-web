@@ -1,5 +1,5 @@
 import { request } from './http';
-import type { Order, OrderPage } from './types';
+import type { Order, OrderPage, Shipment } from './types';
 
 export async function listOrders(page: number, signal?: AbortSignal): Promise<OrderPage> {
   const result = await request<OrderPage>(
@@ -11,4 +11,18 @@ export async function listOrders(page: number, signal?: AbortSignal): Promise<Or
 
 export async function getOrder(orderId: string, signal?: AbortSignal): Promise<Order | undefined> {
   return request<Order>(`/orders/${encodeURIComponent(orderId)}`, signal ? { signal } : {});
+}
+
+export async function getShipment(
+  orderId: string,
+  signal?: AbortSignal,
+): Promise<Shipment | undefined> {
+  return request<Shipment>(`/shipments/${encodeURIComponent(orderId)}`, signal ? { signal } : {});
+}
+
+export async function cancelOrder(orderId: string, reason: string): Promise<void> {
+  await request(`/orders/${encodeURIComponent(orderId)}/cancellation`, {
+    method: 'POST',
+    body: { reason },
+  });
 }
