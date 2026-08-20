@@ -9,10 +9,11 @@ session is the ingress authentication proxy's cookie — the console never handl
 
 ## Screens
 
-| Path           | Screen                                 | Gateway routes         |
-| -------------- | -------------------------------------- | ---------------------- |
-| `/orders`      | Orders, newest first, a page at a time | `GET /api/orders`      |
-| `/orders/{id}` | One order                              | `GET /api/orders/{id}` |
+| Path           | Screen                                                                          | Gateway routes                                                    |
+| -------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `/orders`      | Orders, newest first, a page at a time                                          | `GET /api/orders`                                                 |
+| `/orders/{id}` | One order with its delivery status; cancelling it                               | `GET /api/shipments/{id}`, `POST /api/orders/{id}/cancellation`   |
+| `/dispatch`    | Dispatch board: the routes of a day, their vehicles and stops; starting a route | `GET /api/dispatch/board`, `POST /api/dispatch/routes/{id}/start` |
 
 ## Build and run
 
