@@ -1,6 +1,6 @@
 {
   "name": "quellbrook-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Operator console of the Quellbrook operations platform: orders, shipment status and the dispatch board.",
   "private": true,
   "license": "MIT",
