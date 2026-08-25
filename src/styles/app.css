@@ -183,3 +183,11 @@ dialog textarea {
   display: flex;
   gap: 0.5rem;
 }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}

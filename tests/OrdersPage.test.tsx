@@ -41,6 +41,35 @@ describe('orders page', () => {
     ]);
   });
 
+  it('narrows the page by consignee, city and status', async () => {
+    fakeApi({
+      '/api/orders?page=1': () =>
+        json(200, {
+          items: [
+            orderSummary(first, 'Halden Bikes ApS'),
+            {
+              ...orderSummary('0198f1a2-0000-7000-8000-000000000002', 'Fjord Kaffe'),
+              destinationCity: 'Odense',
+              status: 'Cancelled',
+            },
+          ],
+          page: 1,
+          pageSize: 25,
+          totalCount: 2,
+        }),
+    });
+    render(<App />);
+
+    await userEvent.type(await screen.findByPlaceholderText('Search consignee or city'), 'odense');
+    expect(screen.queryByRole('cell', { name: 'Halden Bikes ApS' })).not.toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'Fjord Kaffe' })).toBeInTheDocument();
+    await userEvent.clear(screen.getByPlaceholderText('Search consignee or city'));
+    await userEvent.selectOptions(screen.getByLabelText('Status'), 'placed');
+
+    expect(screen.getByRole('cell', { name: 'Halden Bikes ApS' })).toBeInTheDocument();
+    expect(screen.queryByRole('cell', { name: 'Fjord Kaffe' })).not.toBeInTheDocument();
+  });
+
   it('opens an order from its row', async () => {
     fakeApi({
       '/api/orders?page=1': () =>
