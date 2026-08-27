@@ -5,9 +5,11 @@ const kilograms = (grams: number) => `${(grams / 1000).toFixed(0)} kg`;
 
 export function RouteCard({
   route,
+  postalCode,
   onStart,
 }: {
   route: BoardRoute;
+  postalCode: string;
   onStart: (routeId: string) => void;
 }) {
   const vehicleIcon = route.vehicleKind === 'Rigid' ? '/icons/rigid.svg' : '/icons/van.svg';
@@ -26,12 +28,14 @@ export function RouteCard({
         Load: {kilograms(route.loadGrams)} of {kilograms(route.capacityGrams)}
       </p>
       <ol className="stops">
-        {route.stops.map((stop) => (
-          <li key={stop.consignmentId}>
-            {stop.postalCode}, {(stop.weightGrams / 1000).toFixed(1)} kg{' '}
-            <StatusBadge status={stop.status} />
-          </li>
-        ))}
+        {route.stops
+          .filter((stop) => postalCode === '' || stop.postalCode.startsWith(postalCode))
+          .map((stop) => (
+            <li key={stop.consignmentId}>
+              {stop.postalCode}, {(stop.weightGrams / 1000).toFixed(1)} kg{' '}
+              <StatusBadge status={stop.status} />
+            </li>
+          ))}
       </ol>
       {route.status === 'Planned' && route.stops.length > 0 && (
         <button

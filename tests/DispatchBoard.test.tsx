@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '../src/App';
+import { loadBoardDensity, saveBoardDensity } from '../src/preferences/boardDensity';
 import { fakeApi, json } from './support/fakeApi';
 
 const route = (status: string) => ({
@@ -81,5 +82,42 @@ describe('dispatch board', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Start route DK-AAR' }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Route has no stops.');
+  });
+});
+
+describe('board preferences', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('remembers the card density in this browser and filters stops by postal code', async () => {
+    fakeApi({ '/api/dispatch/board': () => json(200, [route('Started')]) });
+    window.history.replaceState(null, '', '/dispatch');
+    render(<App />);
+
+    await userEvent.click(await screen.findByRole('radio', { name: 'Compact' }));
+    expect(window.localStorage.getItem('quellbrook.board-density')).toBe('compact');
+    await userEvent.type(
+      screen.getByRole('searchbox', { name: 'Show only stops with this postal code' }),
+      '9000',
+    );
+
+    expect(screen.queryByText(/^8000,/)).not.toBeInTheDocument();
+  });
+
+  it('starts comfortable when nothing is remembered and when storage fails', () => {
+    expect(loadBoardDensity()).toBe('comfortable');
+    const failing = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('denied');
+    });
+    expect(loadBoardDensity()).toBe('comfortable');
+    failing.mockRestore();
+    const failingSave = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('quota');
+    });
+    expect(() => {
+      saveBoardDensity('compact');
+    }).not.toThrow();
+    failingSave.mockRestore();
   });
 });

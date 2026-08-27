@@ -191,3 +191,20 @@ dialog textarea {
   gap: 0.5rem 1rem;
   margin-bottom: 1rem;
 }
+
+.density {
+  display: inline-flex;
+  gap: 1rem;
+  border: none;
+  margin: 1rem 0;
+}
+
+.stops-heading {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.board-compact .route-card {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
