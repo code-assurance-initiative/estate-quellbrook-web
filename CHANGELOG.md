@@ -3,6 +3,18 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-09-04
+
+### Added
+
+- Searching the orders page by consignee or city, filtering by status.
+- Dispatch board: compact or comfortable cards (remembered in the browser), stops filtered by postal code.
+- Release images carry a signed build-provenance attestation, verified before deploying.
+
+### Fixed
+
+- nginx no longer drops the server's security headers in the page and asset locations.
+
 ## [0.2.0] - 2026-08-21
 
 ### Added
