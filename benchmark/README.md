@@ -48,22 +48,24 @@ listed in `benchmark/history/README.md`.
 
 | Id | Concept | Site | Why |
 |---|---|---|---|
-| WEB-001 | `non-keyboard-accessible-interaction` | `src/features/orders/OrdersTable.tsx:30-36` | Each row of the orders table opens the order on click (onClick on the <tr>), but the row is not focusable and has no key handler and no link inside it: keyboard and switch users cannot open an order from the list at all (WCAG 2.1.1). |
-| WEB-002 | `form-control-without-label` | `src/features/orders/OrdersPage.tsx:40-46` | The orders search box has a placeholder but no <label>, aria-label or aria-labelledby; the placeholder disappears on input and is not a reliable accessible name (WCAG 1.3.1, 4.1.2). |
-| WEB-003 | `missing-text-alternative` | `src/features/dispatch/RouteCard.tsx:20-22` | The dispatch board shows each route's vehicle as an icon image (van or rigid truck) with no alt attribute; the vehicle kind is information the operator needs (heavy express parcels need a rigid vehicle) and is not given anywhere else on the card (WCAG 1.1.1). |
+| WEB-001 | `non-keyboard-accessible-interaction` | `src/features/orders/OrdersTable.tsx:23-28` | Each row of the orders table opens the order on click (onClick on the <tr>), but the row is not focusable and has no key handler and no link inside it: keyboard and switch users cannot open an order from the list at all (WCAG 2.1.1). |
+| WEB-002 | `form-control-without-label` | `src/features/orders/OrdersPage.tsx:18-25` | The orders search box (sprint 3) has a placeholder but no <label>, aria-label or aria-labelledby; the placeholder disappears on input and is not a reliable accessible name (WCAG 1.3.1, 4.1.2). The status select beside it is labelled. |
+| WEB-003 | `missing-text-alternative` | `src/features/dispatch/RouteCard.tsx:23` | The dispatch board shows each route's vehicle as an icon image (van or rigid truck) with no alt attribute; the vehicle kind is information the operator needs (heavy express parcels need a rigid vehicle) and is not given anywhere else on the card (WCAG 1.1.1). |
 
 ## Traps (`must-not-fire`)
 
 | Id | Concept | Site | Why |
 |---|---|---|---|
-| TRP-001 | `missing-text-alternative` | `src/components/Layout.tsx:20-22` | The header's divider image is decorative: alt="" and aria-hidden mark it so on purpose, and the brand name is in the text beside it. |
-| TRP-002 | `form-control-without-label` | `src/features/dispatch/DispatchBoard.tsx:50-56` | The dispatch board's consignment filter has no visible <label> element but an aria-label that names it; a visible heading above the list says what it filters. It has an accessible name. |
-| TRP-003 | `sensitive-data-in-browser-storage` | `src/preferences/boardDensity.ts:5-20` | The board's compact/comfortable density preference is kept in localStorage. It is a display preference, not personal data or a token. |
-| TRP-004 | `non-keyboard-accessible-interaction` | `src/features/orders/CancelOrderDialog.tsx:40-46` | The cancel-order dialog is a native <dialog> opened with showModal(); its click handler closes it when the backdrop is clicked. Keyboard users close it with Escape (native) or its Close button; the click handler is a pointer convenience, not the only way. |
+| TRP-001 | `missing-text-alternative` | `src/components/Layout.tsx:31` | The header's divider image is decorative: alt="" and aria-hidden mark it so on purpose, and the brand name is in the text beside it. |
+| TRP-002 | `form-control-without-label` | `src/features/dispatch/DispatchBoard.tsx:76-83` | The dispatch board's stop filter has no <label> element but an aria-label that names it ('Show only stops with this postal code'), under a visible heading that says what it filters. It has an accessible name. |
+| TRP-003 | `sensitive-data-in-browser-storage` | `src/preferences/boardDensity.ts:6-20` | The board's compact/comfortable density preference is kept in localStorage. It is a display preference, not personal data or a token. |
+| TRP-005 | `missing-image-healthcheck` | `Dockerfile` | The image runs only on Kubernetes, which ignores a Dockerfile HEALTHCHECK; the probes (nginx /healthz) are in deploy/k8s/deployment.yaml. |
+| TRP-006 | `high-cyclomatic-complexity` | `src/features/orders/OrderDetailPage.tsx:12` | OrderDetailPage is a React component with cyclomatic complexity 11 (the loading, failure and not-found branches, optional address and delivery parts, the cancellability rule). That is below the threshold of 15 used for the services and reads as a flat sequence of conditional renders; not high complexity. |
+| TRP-004 | `non-keyboard-accessible-interaction` | `src/features/orders/CancelOrderDialog.tsx:31-42` | The cancel-order dialog is a native <dialog> opened with showModal(); its click handler closes it when the backdrop is clicked. Keyboard users close it with Escape (native) or its Close button; the click handler is a pointer convenience, not the only way. |
 
 ## Certified clean
 
-Every tracked file will carry a `clean` entry, generated from the file list once the code exists: files without a label clean for every concept, labelled files for every finding concept except the labelled ones.
+86 `clean` entries, one per tracked file: files without a label are certified clean for every concept (`"*"`); a file that carries a plant or a trap is certified clean for every finding concept except the labelled ones and the concepts a result of those labels would restate.
 
 ## Not applicable
 
