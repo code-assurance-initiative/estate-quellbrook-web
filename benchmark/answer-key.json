@@ -1,0 +1,455 @@
+{
+  "schema": "https://github.com/code-assurance-initiative/scanner-benchmark/schema/answer-key.schema.json",
+  "schemaVersion": "1.2",
+  "repo": "code-assurance-initiative/estate-quellbrook-web",
+  "keyVersion": "1.0.0",
+  "languages": [
+    "typescript"
+  ],
+  "theme": "Quellbrook Freight reference estate, operator web front end: a React + Vite single-page application (orders, order detail with shipment status, dispatch board) served by nginx behind the gateway; owned by the Edge team. Its plants are accessibility defects a team without automated accessibility checks ships.",
+  "lineTolerance": 3,
+  "entries": [
+    {
+      "id": "WEB-001",
+      "label": "must-fire",
+      "concept": "non-keyboard-accessible-interaction",
+      "file": "src/features/orders/OrdersTable.tsx",
+      "lines": [
+        30,
+        36
+      ],
+      "rationale": "Each row of the orders table opens the order on click (onClick on the <tr>), but the row is not focusable and has no key handler and no link inside it: keyboard and switch users cannot open an order from the list at all (WCAG 2.1.1)."
+    },
+    {
+      "id": "WEB-002",
+      "label": "must-fire",
+      "concept": "form-control-without-label",
+      "file": "src/features/orders/OrdersPage.tsx",
+      "lines": [
+        40,
+        46
+      ],
+      "rationale": "The orders search box has a placeholder but no <label>, aria-label or aria-labelledby; the placeholder disappears on input and is not a reliable accessible name (WCAG 1.3.1, 4.1.2)."
+    },
+    {
+      "id": "WEB-003",
+      "label": "must-fire",
+      "concept": "missing-text-alternative",
+      "file": "src/features/dispatch/RouteCard.tsx",
+      "lines": [
+        20,
+        22
+      ],
+      "rationale": "The dispatch board shows each route's vehicle as an icon image (van or rigid truck) with no alt attribute; the vehicle kind is information the operator needs (heavy express parcels need a rigid vehicle) and is not given anywhere else on the card (WCAG 1.1.1)."
+    },
+    {
+      "id": "TRP-001",
+      "label": "must-not-fire",
+      "concept": "missing-text-alternative",
+      "file": "src/components/Layout.tsx",
+      "lines": [
+        20,
+        22
+      ],
+      "rationale": "The header's divider image is decorative: alt=\"\" and aria-hidden mark it so on purpose, and the brand name is in the text beside it."
+    },
+    {
+      "id": "TRP-002",
+      "label": "must-not-fire",
+      "concept": "form-control-without-label",
+      "file": "src/features/dispatch/DispatchBoard.tsx",
+      "lines": [
+        50,
+        56
+      ],
+      "rationale": "The dispatch board's consignment filter has no visible <label> element but an aria-label that names it; a visible heading above the list says what it filters. It has an accessible name."
+    },
+    {
+      "id": "TRP-003",
+      "label": "must-not-fire",
+      "concept": "sensitive-data-in-browser-storage",
+      "cwe": "CWE-922",
+      "file": "src/preferences/boardDensity.ts",
+      "lines": [
+        5,
+        20
+      ],
+      "rationale": "The board's compact/comfortable density preference is kept in localStorage. It is a display preference, not personal data or a token."
+    },
+    {
+      "id": "TRP-004",
+      "label": "must-not-fire",
+      "concept": "non-keyboard-accessible-interaction",
+      "file": "src/features/orders/CancelOrderDialog.tsx",
+      "lines": [
+        40,
+        46
+      ],
+      "rationale": "The cancel-order dialog is a native <dialog> opened with showModal(); its click handler closes it when the backdrop is clicked. Keyboard users close it with Escape (native) or its Close button; the click handler is a pointer convenience, not the only way."
+    },
+    {
+      "id": "NA-001",
+      "label": "not-applicable",
+      "concept": "sql-injection",
+      "rationale": "A browser application: no database access."
+    },
+    {
+      "id": "NA-002",
+      "label": "not-applicable",
+      "concept": "versioned-schema-migrations",
+      "rationale": "A browser application: no database."
+    },
+    {
+      "id": "NA-003",
+      "label": "not-applicable",
+      "concept": "dual-write-without-outbox",
+      "rationale": "A browser application: it publishes no messages."
+    },
+    {
+      "id": "NA-004",
+      "label": "not-applicable",
+      "concept": "missing-cancellation-propagation",
+      "rationale": "Every fetch takes an AbortSignal from the component's effect."
+    },
+    {
+      "id": "BND-001",
+      "label": "score-band",
+      "concept": "high-cyclomatic-complexity",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "Small handlers and aggregates; no method above the usual threshold."
+    },
+    {
+      "id": "BND-002",
+      "label": "score-band",
+      "concept": "high-cognitive-complexity",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "Small handlers and aggregates; flat control flow."
+    },
+    {
+      "id": "BND-003",
+      "label": "score-band",
+      "concept": "duplicated-code",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "No copied blocks of note."
+    },
+    {
+      "id": "BND-004",
+      "label": "score-band",
+      "concept": "test-coverage",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Component tests for every page and the API client."
+    },
+    {
+      "id": "BND-005",
+      "label": "score-band",
+      "concept": "test-pyramid-distribution",
+      "band": [
+        30,
+        100
+      ],
+      "rationale": "Component tests dominate; unit tests for helpers."
+    },
+    {
+      "id": "BND-006",
+      "label": "score-band",
+      "concept": "dependencies-not-locked",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "package-lock.json committed; CI installs with npm ci."
+    },
+    {
+      "id": "BND-007",
+      "label": "score-band",
+      "concept": "security-tooling-in-ci",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "CodeQL on every pull request, npm audit and signature verification in CI."
+    },
+    {
+      "id": "BND-008",
+      "label": "score-band",
+      "concept": "vulnerability-disclosure-policy",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "SECURITY.md with a private reporting channel and response times."
+    },
+    {
+      "id": "BND-009",
+      "label": "score-band",
+      "concept": "readme-quality",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "README with purpose, build/run, configuration, testing, architecture and ownership sections."
+    },
+    {
+      "id": "BND-010",
+      "label": "score-band",
+      "concept": "architecture-documentation",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "docs/architecture.md with C4 diagrams in Mermaid, plus ADRs."
+    },
+    {
+      "id": "BND-011",
+      "label": "score-band",
+      "concept": "folder-structure",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "Features under src/features, shared components, api client, tests/."
+    },
+    {
+      "id": "BND-012",
+      "label": "score-band",
+      "concept": "ci-build-and-test-pipeline",
+      "band": [
+        80,
+        100
+      ],
+      "rationale": "CI builds and tests every push and pull request."
+    },
+    {
+      "id": "BND-013",
+      "label": "score-band",
+      "concept": "observability",
+      "band": [
+        0,
+        100
+      ],
+      "rationale": "A static single-page application: browser code with no server-side logging to assess."
+    },
+    {
+      "id": "BND-014",
+      "label": "score-band",
+      "concept": "deployment-rollback-safety",
+      "band": [
+        50,
+        100
+      ],
+      "rationale": "Rolling updates by image digest with a rollback step in the deploy workflow."
+    },
+    {
+      "id": "BND-015",
+      "label": "score-band",
+      "concept": "release-hygiene",
+      "band": [
+        40,
+        100
+      ],
+      "rationale": "CHANGELOG with every release, package.json version 0.3.0 and tags v0.1.0..v0.3.0."
+    },
+    {
+      "id": "BND-016",
+      "label": "score-band",
+      "concept": "build-provenance-and-signing",
+      "band": [
+        40,
+        100
+      ],
+      "rationale": "Release images built by CI with provenance and SBOM attestations."
+    },
+    {
+      "id": "BND-017",
+      "label": "score-band",
+      "concept": "network-egress-policy",
+      "band": [
+        50,
+        100
+      ],
+      "rationale": "Default-deny NetworkPolicy; nginx needs no egress."
+    },
+    {
+      "id": "BND-018",
+      "label": "score-band",
+      "concept": "workload-syscall-confinement",
+      "band": [
+        10,
+        80
+      ],
+      "rationale": "seccomp RuntimeDefault, all capabilities dropped; no AppArmor or custom profiles."
+    },
+    {
+      "id": "BND-019",
+      "label": "score-band",
+      "concept": "runtime-threat-detection-and-admission",
+      "band": [
+        0,
+        40
+      ],
+      "rationale": "Pod Security Admission 'restricted' on the namespace; no runtime threat detection or signed-image admission."
+    },
+    {
+      "id": "BND-020",
+      "label": "score-band",
+      "concept": "churn-complexity-hotspot",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "Six weeks of history; churn lands on small files."
+    },
+    {
+      "id": "BND-021",
+      "label": "score-band",
+      "concept": "knowledge-concentration",
+      "band": [
+        30,
+        100
+      ],
+      "rationale": "A team of two or three authors over six weeks; some files are naturally single-author."
+    },
+    {
+      "id": "BND-022",
+      "label": "score-band",
+      "concept": "knowledge-freshness",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "The whole history is recent and the authors are active."
+    },
+    {
+      "id": "BND-023",
+      "label": "score-band",
+      "concept": "change-coupling",
+      "band": [
+        50,
+        100
+      ],
+      "rationale": "Co-changes are explicit dependencies or tests changing with their subject."
+    },
+    {
+      "id": "BND-024",
+      "label": "score-band",
+      "concept": "documentation-quality",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. README, architecture overview and ADRs are clear and current. Wide band."
+    },
+    {
+      "id": "BND-025",
+      "label": "score-band",
+      "concept": "adr-quality",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. ADRs carry status, context, decision and two-sided consequences. Wide band."
+    },
+    {
+      "id": "BND-026",
+      "label": "score-band",
+      "concept": "adr-conformance",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. The code follows its ADRs. Wide band."
+    },
+    {
+      "id": "BND-027",
+      "label": "score-band",
+      "concept": "documentation-accuracy",
+      "band": [
+        50,
+        100
+      ],
+      "rationale": "Model-judged. README and architecture describe the code as it is. Wide band."
+    },
+    {
+      "id": "BND-028",
+      "label": "score-band",
+      "concept": "inconsistent-naming",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. Consistent domain vocabulary. Wide band."
+    },
+    {
+      "id": "BND-029",
+      "label": "score-band",
+      "concept": "low-value-comments",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. Comments explain why, not what. Wide band."
+    },
+    {
+      "id": "BND-030",
+      "label": "score-band",
+      "concept": "internal-api-inconsistency",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "Model-judged. Endpoints and handlers follow one shape. Wide band."
+    },
+    {
+      "id": "BND-031",
+      "label": "score-band",
+      "concept": "accessibility-checks-in-ci",
+      "band": [
+        0,
+        40
+      ],
+      "rationale": "No accessibility lint rules and no automated accessibility assertions in tests or CI; the plants above are what that lets through."
+    },
+    {
+      "id": "BND-032",
+      "label": "score-band",
+      "concept": "untyped-javascript-share",
+      "band": [
+        90,
+        100
+      ],
+      "rationale": "TypeScript throughout, strict mode."
+    },
+    {
+      "id": "BND-033",
+      "label": "score-band",
+      "concept": "frontend-tooling-scripts",
+      "band": [
+        70,
+        100
+      ],
+      "rationale": "dev, build, test, lint, typecheck and format scripts."
+    },
+    {
+      "id": "BND-034",
+      "label": "score-band",
+      "concept": "security-response-headers",
+      "band": [
+        60,
+        100
+      ],
+      "rationale": "nginx sends CSP, frame, referrer and content-type headers."
+    }
+  ]
+}
