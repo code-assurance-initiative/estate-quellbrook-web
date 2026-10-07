@@ -49,3 +49,17 @@
   `v0.2.0` 21, `v0.3.0` 24 tests, all green.
 - `benchmark/history/`: patches and `build-history.sh` (verified into a fresh directory: HEAD and three tags match).
 - Key changes: trap TRP-006.
+
+## 2026-10-07 — scan iteration 2 (contained and model-judged, pushed `c633a99`) and freeze
+
+- Contained pass: 10 results. The eight D29 header rows are gone (fixed in sprint 3). **All three plants found on
+  their lines** (WEB-001 AC4, WEB-002 AC2, WEB-003 AC1). Traps: TRP-004, TRP-005, TRP-006 fire as in iteration 1;
+  TRP-001..003 respected. KSV-0125 on the organisation's own registry and D41 recorded as opinion; P2 as
+  shape-irrelevant. Every score band in.
+- Model-judged host pass: 11 results, the same three plants. New rows: D20 on ADR 0001 ("a process, not a decision")
+  — **opinion-not-fact**, promoted to trap **TRP-007** as in the gateway, dispatch and notifier; D19 "no contributor
+  guidance" on README.md — **false-positive** (the Contributing section is there; the model says it could not see
+  it); M4 "README claims signed build provenance with no workflow for it" — **false-positive** (`deploy.yml` verifies
+  the attestation `release.yml` creates with `actions/attest-build-provenance`). Every score band in.
+- No further valid finding; no code change. Key changes: trap TRP-007.
+- Frozen as `v1.0.0`: code and answer key together.
